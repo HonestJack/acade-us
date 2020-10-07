@@ -157,7 +157,7 @@ class c_relogio
 static c_relogio relogio;
 static c_lcd lcd;
 
-ISR (TIMER1_OVF_vect) // Interrupção do timer responsável por contar os segundos
+ISR (TIMER1_OVF_vect) // Interrupï¿½ï¿½o do timer responsï¿½vel por contar os segundos
 {
 	TCNT1  = 3036;
 	TIFR1 |= (1 << 0); // Clear Flag
@@ -196,8 +196,8 @@ void timer_us(unsigned short tempo){
 
 void init()
 {
-	DDRB   = 0xFF;   // PB como saída
-	DDRD   = 0xFF;   // PD como saída
+	DDRB   = 0xFF;   // PB como saï¿½da
+	DDRD   = 0xFF;   // PD como saï¿½da
 	TCCR1A = 0;        // Timer
 	TCCR1B = 4;        // Prescaler 256
 	TCNT1  = 3036;

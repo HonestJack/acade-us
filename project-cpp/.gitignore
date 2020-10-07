@@ -1,0 +1,13 @@
+# VSCode and PlatforIO hidden|build files.
+**/.pio
+**/.vscode/.browse.c_cpp.db*
+**/.vscode/c_cpp_properties.json
+**/.vscode/launch.json
+**/.vscode/ipch
+
+#Atmel studio hidden|build files.
+**/.atsln
+**/.vs
+**/Debug
+**/.xml
+**/.cppproj
