@@ -62,9 +62,12 @@ void timer_1ms(){
 
 // Função que faz o deboucing
 void deboucing(unsigned char b_antigo){
-	unsigned char count = 0, b_novo = 0x00;
+	unsigned char count = 0, b_novo = 0x00, i;
 	do{
-		timer_1ms();
+    for(i=0;i<10;i++)
+    {
+      timer_1ms();
+    }
 		b_novo = PORTD & PORTD_COLUMN_MASK;
 		if(b_novo == b_antigo){
 			count++;
@@ -75,15 +78,42 @@ void deboucing(unsigned char b_antigo){
 	}while(count < BOUNCE);
 }
 
-unsigned char le_teclado(Display display, unsigned char PD_antigo[4], unsigned char linha, unsigned char i)
+unsigned char indice_linha(unsigned char linha)
 {
-  PORTD &= 0xF0;
-  PORTD |= linha; // 0bxxxx1101
-  if(PD_antigo[i] != (PIND & PORTD_COLUMN_MASK))
+  switch (linha)
   {
-    deboucing(PIND & PORTD_COLUMN_MASK);
-    switch (PIND & PORTD_COLUMN_MASK){
-      case COLUNA_0: // P0 = 0b0110 0000 = 0xB0
+  case LINHA_0:
+    return 0;
+    break;
+  case LINHA_1:
+    return 1;
+    break;
+  case LINHA_2:
+    return 2;
+    break;
+  case LINHA_3:
+    return 3;
+    break;
+  default:
+    return 0;
+    break;
+  }
+
+}
+
+unsigned char le_teclado(Display display, unsigned char porta_antiga, unsigned char linha)
+{
+  PORTD &= ~(PORTD_LINES_MASK); 
+  PORTD |= linha;
+
+  unsigned char porta_agora = (PIND & PORTD_COLUMN_MASK);
+
+  if(porta_antiga != (porta_agora))
+  {
+    porta_antiga = porta_agora;
+    deboucing(porta_agora);
+    switch (porta_agora){
+      case COLUNA_0: 
         switch (linha)
         {
           case LINHA_0:
@@ -102,7 +132,7 @@ unsigned char le_teclado(Display display, unsigned char PD_antigo[4], unsigned c
         }
         break;
 
-      case COLUNA_1: // P0 = 0b0101 0000 = 0xD0
+      case COLUNA_1: 
         switch (linha)
         {
           case LINHA_0:
@@ -121,7 +151,7 @@ unsigned char le_teclado(Display display, unsigned char PD_antigo[4], unsigned c
             break;
         }
         break;
-      case COLUNA_2: // P0 = 0b0011 0000 = 0xE0
+      case COLUNA_2:
         switch (linha)
         {
           case LINHA_0:
@@ -143,9 +173,9 @@ unsigned char le_teclado(Display display, unsigned char PD_antigo[4], unsigned c
       default:
         break;
     }
-    return(PIND & PORTD_COLUMN_MASK);
+    return(porta_agora);
   }
-  return(PD_antigo[i]);
+  return(porta_antiga);
 }
 
 unsigned char proxima_linha(unsigned char linha_atual)
@@ -178,17 +208,25 @@ int main()
   Display display;
   Timer timer; 
 
-  unsigned char i = 0;
+
   unsigned char PD_antigo[4];
   unsigned char linha = LINHA_0;
+  PORTD &= ~(PORTD_LINES_MASK); 
+  PORTD |= LINHA_0;
   PD_antigo[0] = PIND & PORTD_COLUMN_MASK;
-  linha = LINHA_1;
-  PD_antigo[1] = PIND & PORTD_COLUMN_MASK;
-  linha = LINHA_2;
-  PD_antigo[2] = PIND & PORTD_COLUMN_MASK;
-  linha = LINHA_3;
-  PD_antigo[3] = PIND & PORTD_COLUMN_MASK;
   
+  PORTD &= ~(PORTD_LINES_MASK); 
+  PORTD |= LINHA_1;
+  PD_antigo[1] = PIND & PORTD_COLUMN_MASK;
+
+  PORTD &= ~(PORTD_LINES_MASK); 
+  PORTD |= LINHA_2;
+  PD_antigo[2] = PIND & PORTD_COLUMN_MASK;
+
+  PORTD &= ~(PORTD_LINES_MASK); 
+  PORTD |=  LINHA_3;
+  PD_antigo[3] = PIND & PORTD_COLUMN_MASK;
+
 
   display.print_hora(0);
 
@@ -198,14 +236,10 @@ int main()
     if (counter != old_counter)
     {
       old_counter = counter;
-    // display.print_hora(counter);
+   // display.print_hora(counter);
     }
     
-    PD_antigo[i] = le_teclado(display, PD_antigo, linha, i);
+    PD_antigo[indice_linha(linha)] = le_teclado(display, PD_antigo[indice_linha(linha)], linha);
     linha = proxima_linha(linha);
-    i++;
-    if(i == 4) i = 0;
-
-  }
-  return 0;
+  } 
 }

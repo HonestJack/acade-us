@@ -7,7 +7,7 @@
 #define CLEAR_DISPLAY          0x01
 #define CURSOR_HOME            0x02
 #define ENTRY_SET_MODE         0x06
-#define DISPLAY_CONTROL        0x0C
+#define DISPLAY_CONTROL        0x0F
 #define CURSOR_DISPLAY_SHIFT   0x17
 #define FUNCTION_SET           0x28
 
