@@ -9,9 +9,10 @@ public:
   Display(/* args */);
   ~Display();
 
+  void print(char ch);
   void print_hora(unsigned int count);
 
-//private:
+private:
   Lcd m_lcd;
 };
 

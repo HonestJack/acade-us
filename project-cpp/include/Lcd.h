@@ -14,8 +14,6 @@ public:
 
 private:  
   void lcd_function(char function);
-  char convert_int2string(int var);
-  void timer_us(unsigned short tempo);
 };
 
 
