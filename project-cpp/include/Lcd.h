@@ -12,7 +12,7 @@ public:
 
   void clear();
 
-private:  
+ 
   void lcd_function(char function);
 };
 

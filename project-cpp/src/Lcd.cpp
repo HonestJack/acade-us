@@ -17,6 +17,8 @@
 
 Lcd::Lcd(/* args */)
 {
+  DDRB   = 0xFF;   // PB como saida
+
 	DDRD |=  (1 << 7);   // PD.7 como saida - R/S do display
 
   PORTD &= ~(1 << 7); // RS = 0

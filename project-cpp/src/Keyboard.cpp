@@ -6,24 +6,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#define PORTD_COLUMN_MASK 0x70 // 0b0111 0000 - Pega apenas as colunas do teclado
-
-#define COLUNA_0 0x60 // 0b0110 0000
-#define COLUNA_1 0x50 // 0b0101 0000
-#define COLUNA_2 0x30 // 0b0011 0000
-
-#define COLUNA_0_MASK 0x10 // 0b0001 0000
-#define COLUNA_1_MASK 0x20 // 0b0010 0000
-#define COLUNA_2_MASK 0x40 // 0b0100 0000
-
-#define PORTD_LINES_MASK  0x0F // 0b00001111 - Pega apenas as linhas do teclado
-#define LINHA_3 0x07 // 0b00000111
-#define LINHA_2 0x0B // 0b00001011
-#define LINHA_1 0x0D // 0b00001101
-#define LINHA_0 0x0E // 0b00001110
-
-#define BOUNCE 4
-
 Keyboard::Keyboard(/* args */)
 {
 	DDRD   |=  (1 << 0);   // PD.0 como saida - Linha 0 do teclado
@@ -38,6 +20,7 @@ Keyboard::Keyboard(/* args */)
   PORTD |=  (1 << 4); //Ativa pull up
   PORTD |=  (1 << 5); //Ativa pull up
   PORTD |=  (1 << 6); //Ativa pull up
+
 
   // Init row control variables
   m_rowMaskNow = LINHA_0;
@@ -189,4 +172,12 @@ void Keyboard::deboucing()
 		b_antigo = b_novo;
 
 	}while(count < BOUNCE);
+}
+
+char Keyboard::reading()
+{
+  unsigned char key;
+  key = readRow();
+  nextRow();
+  return key;
 }
