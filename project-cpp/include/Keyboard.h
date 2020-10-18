@@ -1,3 +1,5 @@
+#include "Display.h"
+
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
@@ -26,8 +28,8 @@ public:
   Keyboard(/* args */);
   ~Keyboard();
 
-  
-  char reading();
+  short reading(Display display);
+  unsigned char value_index;
 
 private:
   void deboucing();

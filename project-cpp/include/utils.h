@@ -10,4 +10,6 @@
 
 void timer_us(unsigned short tempo);
 
+short pot(short base, short potencia);
+
 #endif

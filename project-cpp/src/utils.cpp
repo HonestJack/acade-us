@@ -28,3 +28,15 @@ void timer_us(unsigned short tempo){
 		
 	}
 }
+
+short pot(short base, short potencia) // Por algum motivo pow não tava funfando então criei a função de novo
+{
+  short valor = 1;
+  unsigned char i;
+  for(i=0; i<potencia; i++)
+  {
+    valor = valor*base;
+  }
+  base = 4;
+  return valor;
+}

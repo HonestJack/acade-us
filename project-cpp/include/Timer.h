@@ -7,10 +7,10 @@ public:
   Timer(/* args */);
   ~Timer();
 
-  volatile unsigned int getTime();
+  volatile unsigned long getTime();
 
 // private:
-  volatile static unsigned int counter;
+  volatile static unsigned long counter;
 };
 
 #endif

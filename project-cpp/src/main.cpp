@@ -1,14 +1,14 @@
 #include "Display.h"
 #include "Timer.h"
 #include "Keyboard.h"
+#include "User.h"
+#include "Userdatabase.h"
 #include "utils.h"
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <string.h>
 
-volatile unsigned int old_counter = 0;
-volatile unsigned int counter = 0;
 
 /*
 void init()
@@ -18,6 +18,7 @@ void init()
 }
 */
 
+
 int main()
 {
 //  init(); // ALWAYS THE FIRST LINE
@@ -26,15 +27,14 @@ int main()
   Display display;
   Timer timer; 
   Keyboard keyboard;
+  Userdatabase userdatabase;
 
-  unsigned char key;
+  volatile unsigned long old_counter = 0;
+  volatile unsigned long counter = 0;
 
-  unsigned char vec_value[DIGIT_NUMBER];
-  unsigned char vec_index = 0;
-  unsigned char user_test[DIGIT_NUMBER] = {6, 6, 6, 6, 6};
-  unsigned char key_counter = 0;
+  short key_value = 0;
 
-  display.print_hora(0);
+  display.print_interfacie_padrao(counter, userdatabase.usuarios_presentes);
 
   while(1) 
   {
@@ -43,41 +43,16 @@ int main()
     if (counter != old_counter)
     {
       old_counter = counter;
-      display.print_hora(counter);
+      display.print_interfacie_padrao(counter, userdatabase.usuarios_presentes);
     } 
 
-    key = keyboard.reading();
-    if(key)
+    key_value += keyboard.reading(display);
+    
+    if(keyboard.value_index == DIGIT_NUMBER)
     {
-      display.goto_display(2, vec_index+1);
-      if(vec_index == 0)
-      {
-        display.print("                ");
-        display.goto_display(2, vec_index+1);
-      }
-      display.print(key);
-      vec_value[vec_index] = key - ASCII_SHIFT;
-      vec_index++;
-    }
-
-    if(vec_index == DIGIT_NUMBER)
-    {
-      for(vec_index = 0; vec_index < DIGIT_NUMBER; vec_index++)
-      {
-        if (vec_value[vec_index] == user_test[vec_index])
-        {
-          key_counter++;
-        } 
-      }
-      display.goto_display(2, 1);
-      if (key_counter == DIGIT_NUMBER)
-      {
-        display.print("Bem-Vindo");
-      }else
-      {
-        display.print("User n existe");
-      }  
-      vec_index = 0;
+      userdatabase.login(display, keyboard, key_value);  
+      keyboard.value_index = 0;
+      key_value = 0;
     }
 
   }

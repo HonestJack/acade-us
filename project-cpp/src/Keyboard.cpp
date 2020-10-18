@@ -1,5 +1,5 @@
 #include "Keyboard.h"
-#include "Display.h"
+
 
 #include "utils.h"
 
@@ -17,10 +17,12 @@ Keyboard::Keyboard(/* args */)
   DDRD   &= ~(1 << 5);   // PD.5 como entrada - Coluna 1 do teclado
   DDRD   &= ~(1 << 6);   // PD.6 como entrada - Coluna 2 do teclado
 
-  PORTD |=  (1 << 4); //Ativa pull up
-  PORTD |=  (1 << 5); //Ativa pull up
-  PORTD |=  (1 << 6); //Ativa pull up
+  PORTD |=  (1 << 4); // Ativa pull up
+  PORTD |=  (1 << 5); // Ativa pull up
+  PORTD |=  (1 << 6); // Ativa pull up
 
+  // Init index
+  value_index = 0;
 
   // Init row control variables
   m_rowMaskNow = LINHA_0;
@@ -174,10 +176,25 @@ void Keyboard::deboucing()
 	}while(count < BOUNCE);
 }
 
-char Keyboard::reading()
+short Keyboard::reading(Display display)
 {
   unsigned char key;
+  short value = 0;
   key = readRow();
   nextRow();
-  return key;
+
+  if(key)
+  {
+    display.goto_display(2, value_index+1);
+    if(value_index == 0)
+    {
+      display.limpa_linha(2);
+      display.goto_display(2, value_index+1);
+    }
+    display.print(key);
+    value = (key - ASCII_SHIFT)*pot(10,(DIGIT_NUMBER - 1 - value_index));
+    value_index++;
+  }
+
+  return value;
 }
