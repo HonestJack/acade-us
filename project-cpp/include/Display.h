@@ -18,6 +18,7 @@ public:
   void print_interfacie_padrao(long int count, short usuarios_presentes);
   void limpa_linha(unsigned char linha);
   void print_tempo_restante(long count);
+  void print_duas_linhas(char string1[MAX_STRING_SIZE], char string2[MAX_STRING_SIZE]);
 
 private:
   void print_horario(long count);

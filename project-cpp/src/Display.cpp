@@ -95,3 +95,11 @@ void Display::print_interfacie_padrao(long count, short usuarios_presentes)
   print_relogio(count);
   print_usuarios_presentes(usuarios_presentes);
 }
+
+void Display::print_duas_linhas(char string1[MAX_STRING_SIZE], char string2[MAX_STRING_SIZE])
+{
+  limpa_linha(1);
+  print(string1);
+  limpa_linha(2);
+  print(string2);
+}

@@ -47,27 +47,16 @@ void Userdatabase::entra_ou_sai(Display display, Keyboard keyboard, Timer timer,
         {
             usuarios[i].entrou(display, keyboard, timer);
             usuarios_presentes++;
-
-            
         }else
         {
             if(usuarios[i].tempo_restante <= 0)
             {
-                display.limpa_linha(1);
-                display.print("Voce Nao Possui");
-                display.limpa_linha(2);
-                display.print("Tempo Disponivel");
+                display.print_duas_linhas("Voce Nao Possui", "Tempo Disponivel");
             }else
             {
-                display.limpa_linha(1);
-                display.print("Ocup limitada");
-                display.limpa_linha(2);
-                display.print("Pelo Covid");
+                display.print_duas_linhas("Ocup limitada", "Pelo Covid");
             }
-            
-            
         }
-        
     }
 }
 
@@ -86,9 +75,6 @@ void Userdatabase::login(Display display, Keyboard keyboard, Timer timer,  short
     }
     if(!usuario_existente)
     {
-        display.limpa_linha(1);
-        display.print("Usuario Digitado");
-        display.limpa_linha(2);
-        display.print("Nao Existe");
+        display.print_duas_linhas("Usuario Digitado", "Nao Existe");
     }
 }
