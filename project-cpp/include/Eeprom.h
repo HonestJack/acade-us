@@ -1,17 +1,20 @@
-// #ifndef EEPROM_H
-// #define EEPROM_H
+#ifndef EEPROM_H
+#define EEPROM_H
 
-// class Eeprom
-// {
-// public:
-//   Eeprom();
-//   ~Eeprom();
+class Eeprom
+{
+public:
+  Eeprom();
+  ~Eeprom();
 
-//   void write();
-//   void read();
+  unsigned char at(unsigned int index);
+  void append(unsigned char data);
 
-// private:
-  
-// };
+private:
+  void writeByte(unsigned int addr, unsigned char data);
+  unsigned char readByte(unsigned int addr);
 
-// #endif
+  unsigned int m_size;
+};
+
+#endif

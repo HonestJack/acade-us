@@ -2,6 +2,7 @@
 #include "Timer.h"
 #include "Keyboard.h"
 #include "User.h"
+#include "Eeprom.h"
 #include "Userdatabase.h"
 #include "utils.h"
 
@@ -28,6 +29,23 @@ int main()
   Timer timer; 
   Keyboard keyboard;
   Userdatabase userdatabase;
+  Eeprom eeprom;
+
+  eeprom.append('C');
+  display.print(eeprom.at(0));
+  eeprom.append('A');
+  display.print(eeprom.at(1));
+  eeprom.append('R');
+  display.print(eeprom.at(2));
+  eeprom.append('L');
+  display.print(eeprom.at(3));
+  eeprom.append('I');
+  display.print(eeprom.at(4));
+  eeprom.append('T');
+  display.print(eeprom.at(5));
+  eeprom.append('O');
+  display.print(eeprom.at(6));
+  while(1);
 
   volatile unsigned long old_counter = 0;
   volatile unsigned long counter = 0;

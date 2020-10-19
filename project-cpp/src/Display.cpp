@@ -1,5 +1,5 @@
 
-#include "display.h"
+#include "Display.h"
 
 Display::Display(/* args */)
 {

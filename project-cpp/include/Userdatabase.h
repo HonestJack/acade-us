@@ -61,7 +61,7 @@ static char lista_planos [11] =
 class Userdatabase
 {
 private:
-    User usuarios[QUANTIDADE_DE_USUARIOS];
+	User usuarios[QUANTIDADE_DE_USUARIOS];
 	void entra_ou_sai(Display display, Keyboard keyboard, unsigned char i);
     
 public:
