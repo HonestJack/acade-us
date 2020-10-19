@@ -43,13 +43,36 @@ void User::entrar_senha(Display display, Keyboard keyboard)
     }
 }
 
-void User::entrou(Display display, Keyboard keyboard)
+void User::entrou(Display display, Keyboard keyboard, Timer timer)
 {
     entrar_senha(display, keyboard);
     esta_dentro = 1;
+    tempo_de_entrada = timer.getTime();
+    display.limpa_linha(1);
+    display.print("Bem-vindo");
+
+    if(plano != 'M')
+    {
+        display.print_tempo_restante(tempo_restante);
+    }else
+    {
+        display.limpa_linha(2);
+        display.print("Aproveite");
+    }
+    
+    
 }
 
-void User::saiu()
+void User::saiu(Display display, Timer timer)
 {
     esta_dentro = 0;
+    
+    display.limpa_linha(1);
+    display.print("Volte logo");
+    if (plano != 'M')
+    {
+        tempo_restante -= timer.getTime() - tempo_de_entrada;
+        display.print_tempo_restante(tempo_restante);
+    }
+    
 }

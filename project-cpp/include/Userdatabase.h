@@ -8,9 +8,9 @@
 
 #define MAXIMO_USUARIOS_PRESENTES 5
 
-#define TEMPO_B 60*60*60
-#define TEMPO_P 90*60*60
-#define TEMPO_M 90*60*60
+#define TEMPO_B (long)60*60*60
+#define TEMPO_P (long)10
+#define TEMPO_M 1
 #define TEMPO_X 0
 
 static short lista_clientes [11] =
@@ -62,13 +62,13 @@ class Userdatabase
 {
 private:
 	User usuarios[QUANTIDADE_DE_USUARIOS];
-	void entra_ou_sai(Display display, Keyboard keyboard, unsigned char i);
+	void entra_ou_sai(Display display, Keyboard keyboard, Timer timer, unsigned char i);
     
 public:
     Userdatabase(/* args */);
     ~Userdatabase();
 	short usuarios_presentes;
-    void login(Display display, Keyboard keyboard, short valor_digitado);
+    void login(Display display, Keyboard keyboard, Timer timer, short valor_digitado);
 };
 
 

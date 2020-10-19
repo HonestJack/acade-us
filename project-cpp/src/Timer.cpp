@@ -2,7 +2,7 @@
 
 #include <avr/interrupt.h>
 
-volatile unsigned long Timer::counter = 0;
+volatile long Timer::counter;
 
 ISR (TIMER1_OVF_vect) // Interrup��o do timer respons�vel por contar os segundos
 {
@@ -19,13 +19,19 @@ Timer::Timer(/* args */)
 //	OCR1A  = 62500;        //  1 000 000u/(0.0625u*presc)
 	TIFR1 |= (1 << 0); // Clear Flag
 	TIMSK1 = (1 << 0); // Ativa interrupt do Timer1
+	counter = (long)START_TIME;
 }
 
 Timer::~Timer()
 {
 }
 
-volatile unsigned long Timer::getTime()
+volatile long Timer::getTime()
 {
   return counter;
+}
+
+void Timer::setTime(volatile long newTime)
+{
+	counter = newTime;
 }

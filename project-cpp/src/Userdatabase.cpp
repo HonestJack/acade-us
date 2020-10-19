@@ -35,32 +35,43 @@ Userdatabase::~Userdatabase()
 {
 }
 
-void Userdatabase::entra_ou_sai(Display display, Keyboard keyboard, unsigned char i)
+void Userdatabase::entra_ou_sai(Display display, Keyboard keyboard, Timer timer, unsigned char i)
 {
     if(usuarios[i].esta_dentro)
     {
-        usuarios[i].saiu();
+        usuarios[i].saiu(display, timer);
         usuarios_presentes--;
-        display.print("Volte logo");
     }else
     {   
-        if(usuarios_presentes < MAXIMO_USUARIOS_PRESENTES)
+        if((usuarios_presentes < MAXIMO_USUARIOS_PRESENTES) && (usuarios[i].tempo_restante > 0))
         {
-            usuarios[i].entrou(display, keyboard);
+            usuarios[i].entrou(display, keyboard, timer);
             usuarios_presentes++;
 
-            display.limpa_linha(2);
-            display.print("Bem-vindo");
+            
         }else
         {
-            display.limpa_linha(2);
-            display.print("Casa cheia");
+            if(usuarios[i].tempo_restante <= 0)
+            {
+                display.limpa_linha(1);
+                display.print("Voce Nao Possui");
+                display.limpa_linha(2);
+                display.print("Tempo Disponivel");
+            }else
+            {
+                display.limpa_linha(1);
+                display.print("Ocup limitada");
+                display.limpa_linha(2);
+                display.print("Pelo Covid");
+            }
+            
+            
         }
         
     }
 }
 
-void Userdatabase::login(Display display, Keyboard keyboard, short valor_digitado)
+void Userdatabase::login(Display display, Keyboard keyboard, Timer timer,  short valor_digitado)
 {
     bool usuario_existente = false;
     unsigned char i;
@@ -70,11 +81,14 @@ void Userdatabase::login(Display display, Keyboard keyboard, short valor_digitad
         if (valor_digitado == usuarios[i].login)
         {
             usuario_existente = true;
-            entra_ou_sai(display, keyboard, i);
+            entra_ou_sai(display, keyboard, timer, i);
         }        
     }
     if(!usuario_existente)
     {
-        display.print("Usuario Errado");
+        display.limpa_linha(1);
+        display.print("Usuario Digitado");
+        display.limpa_linha(2);
+        display.print("Nao Existe");
     }
 }
