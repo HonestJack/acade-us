@@ -13,7 +13,7 @@ public:
   ~Timer();
 
   volatile long getTime();
-  void setTime(volatile long newTime);
+  void setTime(long newTime);
 // private:
   volatile static long counter;
 };

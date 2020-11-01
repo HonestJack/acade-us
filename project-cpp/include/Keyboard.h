@@ -28,20 +28,23 @@ public:
   Keyboard(/* args */);
   ~Keyboard();
 
-  short reading(Display display);
-  unsigned char value_index;
+  unsigned short reading(Display display);
+  unsigned char getIndex();
+  void resetIndex();
+
+  char readRow();
+  void nextRow();
 
 private:
   void deboucing();
-  char readRow();
-  void nextRow();
+
+  unsigned char m_value_index;
 
   unsigned char m_rowMaskNow;
   unsigned char m_rowCount;
 
   unsigned char m_columnsOld[4];
   unsigned char m_columnNow;
-
 };
 
 #endif

@@ -19,7 +19,7 @@ Lcd::Lcd(/* args */)
   PORTB &= 0xF0;
   PORTB |= (0x02 & 0x0F);
   PORTB &= ~(1 << 4); // E = 0
-  timer_us(40);
+  delay_us(40);
   
   lcd_function(FUNCTION_SET);
   lcd_function(ENTRY_SET_MODE);
@@ -70,8 +70,8 @@ void Lcd::lcd_function(char function)
 	PORTB &= ~(1 << 4); // E = 0
 
 	if(function != CLEAR_DISPLAY){
-		timer_us(40);
+		delay_us(40);
 		} else{
-		timer_us(1640);
+		delay_us(1640);
 	}
 }	

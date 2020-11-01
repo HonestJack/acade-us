@@ -14,7 +14,7 @@ void Display::print(char ch)
   m_lcd.print(ch);
 }
 
-void Display::print(char string[MAX_STRING_SIZE])
+void Display::print(char string[])
 {
   m_lcd.print(string);
 }
@@ -26,6 +26,12 @@ void Display::goto_display(unsigned char linha, unsigned char coluna)
     coluna |= 0x40;
   }
   m_lcd.lcd_function(0x80 | (coluna - 1));
+}
+
+void Display::clear()
+{
+  limpa_linha(2);
+  limpa_linha(1);
 }
 
 void Display::limpa_linha(unsigned char linha)
@@ -71,9 +77,7 @@ void Display::print_tempo_restante(long count)
     print_horario(count);
   }else{
     print("Seu Tempo Acabou");
-  }
-  
-  
+  }  
 }
 
 void Display::print_relogio(long count)
@@ -82,18 +86,18 @@ void Display::print_relogio(long count)
   print_horario(count);
 }
 
-void Display::print_usuarios_presentes(short usuarios_presentes)
+void Display::print_usuarios_presentes(short capacity)
 {
   goto_display(1, 14);
   print("U:");
-  print((usuarios_presentes) + ASCII_SHIFT);
+  print((capacity) + ASCII_SHIFT);
 }
 
-void Display::print_interfacie_padrao(long count, short usuarios_presentes)
+void Display::print_interfacie_padrao(long count, short capacity)
 {
   limpa_linha(1);
   print_relogio(count);
-  print_usuarios_presentes(usuarios_presentes);
+  print_usuarios_presentes(capacity);
 }
 
 void Display::print_duas_linhas(char string1[MAX_STRING_SIZE], char string2[MAX_STRING_SIZE])

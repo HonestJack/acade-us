@@ -15,15 +15,16 @@ public:
   void print(char ch);
   void print(char string[MAX_STRING_SIZE]);
   void goto_display(unsigned char linha, unsigned char coluna);
-  void print_interfacie_padrao(long int count, short usuarios_presentes);
+  void print_interfacie_padrao(long int count, short capacity);
+  void clear();
   void limpa_linha(unsigned char linha);
   void print_tempo_restante(long count);
   void print_duas_linhas(char string1[MAX_STRING_SIZE], char string2[MAX_STRING_SIZE]);
-
-private:
   void print_horario(long count);
+private:
+ 
   void print_relogio(long count);
-  void print_usuarios_presentes(short usuarios_presentes);
+  void print_usuarios_presentes(short capacity);
   Lcd m_lcd;
 };
 

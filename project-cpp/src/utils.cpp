@@ -2,7 +2,7 @@
 
 #include <avr/io.h>
 
-void timer_us(unsigned short tempo){
+void delay_us(unsigned short tempo){
 	unsigned short presc;
 	TCCR0A = 2;        // Timer modo CTC
 	
@@ -27,6 +27,15 @@ void timer_us(unsigned short tempo){
 	{
 		
 	}
+}
+
+void delay_ms(unsigned short tempo)
+{
+for (unsigned short i = 0; i < tempo; i++)
+{
+	delay_us(1000);
+}
+
 }
 
 short pot(short base, short potencia) // Por algum motivo pow não tava funfando então criei a função de novo

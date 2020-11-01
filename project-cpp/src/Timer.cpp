@@ -31,7 +31,7 @@ volatile long Timer::getTime()
   return counter;
 }
 
-void Timer::setTime(volatile long newTime)
+void Timer::setTime(long newTime)
 {
 	counter = newTime;
 }

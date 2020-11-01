@@ -8,7 +8,9 @@
 
 #define ASCII_SHIFT 48
 
-void timer_us(unsigned short tempo);
+void delay_us(unsigned short tempo);
+
+void delay_ms(unsigned short tempo);
 
 short pot(short base, short potencia);
 

@@ -22,7 +22,7 @@ Keyboard::Keyboard(/* args */)
   PORTD |=  (1 << 6); // Ativa pull up
 
   // Init index
-  value_index = 0;
+  m_value_index = 0;
 
   // Init row control variables
   m_rowMaskNow = LINHA_0;
@@ -104,7 +104,6 @@ char Keyboard::readRow()
             return('9');
             break;
           case LINHA_3:
-            PORTC =1;
             return('#');
           break;
           default:
@@ -158,7 +157,7 @@ void Keyboard::deboucing()
 	do
   {
 
-    timer_us(10000);
+    delay_us(10000);
 
 		b_novo = PORTD & PORTD_COLUMN_MASK;
 
@@ -176,7 +175,7 @@ void Keyboard::deboucing()
 	}while(count < BOUNCE);
 }
 
-short Keyboard::reading(Display display)
+unsigned short Keyboard::reading(Display display)
 {
   unsigned char key;
   short value = 0;
@@ -185,16 +184,26 @@ short Keyboard::reading(Display display)
 
   if(key)
   {
-    display.goto_display(2, value_index+1);
-    if(value_index == 0)
+    display.goto_display(2, m_value_index+1);
+    if(m_value_index == 0)
     {
       display.limpa_linha(2);
-      display.goto_display(2, value_index+1);
+      display.goto_display(2, m_value_index+1);
     }
     display.print(key);
-    value = (key - ASCII_SHIFT)*pot(10,(DIGIT_NUMBER - 1 - value_index));
-    value_index++;
+    value = (key - ASCII_SHIFT)*pot(10,(DIGIT_NUMBER - 1 - m_value_index));
+    m_value_index++;
   }
 
   return value;
+}
+
+unsigned char Keyboard::getIndex()
+{
+  return m_value_index;
+}
+
+void Keyboard::resetIndex()
+{
+  m_value_index=0;
 }

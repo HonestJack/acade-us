@@ -5,22 +5,60 @@
 #include "Eeprom.h"
 #include "Userdatabase.h"
 #include "utils.h"
+#include "Admin.h"
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <string.h>
 
+Display display;
+Timer timer; 
+Keyboard keyboard;
+Userdatabase userdatabase(&display, &timer, &keyboard);
+Admin admin(&display, &timer, &keyboard);
+Eeprom eeprom;
 
+void showTimeCapacity()
+{
+  // These lines are executed only on the first call to this function.
+  static volatile long counter = START_TIME;
+  static volatile long old_counter = counter;
+
+  counter = timer.getTime();
+  if (counter != old_counter)
+  {
+    old_counter = counter;
+    display.print_interfacie_padrao(counter, userdatabase.capacity());
+  } 
+}
+
+void inputHandler(short &key_value)
+{
+  if(keyboard.getIndex() == DIGIT_NUMBER)
+  {
+    if(key_value == 12345)
+    {
+      admin.start();
+      keyboard.resetIndex();
+      key_value = 0;
+    }
+    else
+    {
+      userdatabase.login(key_value);  
+      keyboard.resetIndex();
+      key_value = 0;
+
+      delay_ms(1000);
+
+      display.print_interfacie_padrao(timer.getTime(), userdatabase.capacity());
+      display.limpa_linha(2);
+    }
+  }
+}
 
 int main()
 {
   sei();
-
-  Display display;
-  Timer timer; 
-  Keyboard keyboard;
-  Userdatabase userdatabase;
-  Eeprom eeprom;
 
 /*
   eeprom.append('C');
@@ -40,42 +78,17 @@ int main()
   //while(1);
   */
 
-  
-  volatile long counter = START_TIME;
-  volatile long old_counter = counter;
-
   short key_value = 0;
 
-  display.print_interfacie_padrao(counter, userdatabase.usuarios_presentes);
+  display.print_interfacie_padrao(START_TIME, userdatabase.capacity());
 
   while(1) 
   {
-
-    counter = timer.getTime();
-    if (counter != old_counter)
-    {
-      old_counter = counter;
-      display.print_interfacie_padrao(counter, userdatabase.usuarios_presentes);
-    } 
+    showTimeCapacity();
 
     key_value += keyboard.reading(display);
     
-    if(keyboard.value_index == DIGIT_NUMBER)
-    {
-      userdatabase.login(display, keyboard, timer, key_value);  
-      keyboard.value_index = 0;
-      key_value = 0;
-
-      old_counter = counter;
-      while((counter - old_counter) < DISPLAY_DELAY) // Delay safado
-      {
-        counter = timer.getTime();
-      }
-      display.print_interfacie_padrao(counter, userdatabase.usuarios_presentes);
-      display.limpa_linha(2);
-      old_counter = counter;
-    }
-
+    inputHandler(key_value);
   }
   return 0;
 }

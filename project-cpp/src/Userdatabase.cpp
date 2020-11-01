@@ -1,10 +1,68 @@
 #include "Userdatabase.h"
 
+#include <stdlib.h>
 
-Userdatabase::Userdatabase(/* args */)
+#define MAXIMO_USUARIOS_PRESENTES 5
+
+#define TEMPO_B (long)60*60*60
+#define TEMPO_P (long)10
+#define TEMPO_M 1
+#define TEMPO_X 0
+
+static short lista_clientes [11] =
 {
+	18040,
+	28869,
+	23105,
+	12941,
+	26264,
+	28870,
+	26265,
+	26272,	 
+	24393,
+	24391,
+	28868
+};
+	
+static short lista_senhas [11] =
+{
+	18040,
+	28869,
+	23105,
+	12941,
+	26264,
+	28870,
+	26265,
+	26272,	 
+	24393,
+	24391,
+	28868
+};
+	
+static char lista_planos [11] =
+{
+	'M', 
+	'P',
+	'B', 
+	'P', 
+	'X', 
+	'M', 
+	'P', 
+	'M', 
+	'B', 
+    'X', 
+    'P'
+};
+
+
+Userdatabase::Userdatabase(Display *d, Timer *t, Keyboard *k)
+{
+    display = d;
+    timer = t;
+    keyboard = k;
+
     unsigned char i;
-    usuarios_presentes = 0;
+    m_capacity = 0;
     for(i=0; i<QUANTIDADE_DE_USUARIOS; i++)
     {
         usuarios[i].login = lista_clientes[i];
@@ -35,46 +93,66 @@ Userdatabase::~Userdatabase()
 {
 }
 
-void Userdatabase::entra_ou_sai(Display display, Keyboard keyboard, Timer timer, unsigned char i)
+void Userdatabase::entra_ou_sai(unsigned char i)
 {
     if(usuarios[i].esta_dentro)
     {
-        usuarios[i].saiu(display, timer);
-        usuarios_presentes--;
+        usuarios[i].saiu(*display, *timer);
+        m_capacity--;
     }else
     {   
-        if((usuarios_presentes < MAXIMO_USUARIOS_PRESENTES) && (usuarios[i].tempo_restante > 0))
+        if((m_capacity < MAXIMO_USUARIOS_PRESENTES) && (usuarios[i].tempo_restante > 0))
         {
-            usuarios[i].entrou(display, keyboard, timer);
-            usuarios_presentes++;
+            usuarios[i].entrou(*display, *keyboard, *timer);
+            m_capacity++;
         }else
         {
             if(usuarios[i].tempo_restante <= 0)
             {
-                display.print_duas_linhas("Voce Nao Possui", "Tempo Disponivel");
+                display->print_duas_linhas("Voce Nao Possui", "Tempo Disponivel");
             }else
             {
-                display.print_duas_linhas("Ocup limitada", "Pelo Covid");
+                display->print_duas_linhas("Ocup limitada", "Pelo Covid");
             }
         }
     }
 }
 
-void Userdatabase::login(Display display, Keyboard keyboard, Timer timer,  short valor_digitado)
+short Userdatabase::capacity()
+{
+    return m_capacity;
+}
+
+void Userdatabase::login(short valor_digitado)
 {
     bool usuario_existente = false;
-    unsigned char i;
-    display.goto_display(2, 1);
-    for (i = 0; i < QUANTIDADE_DE_USUARIOS; i++)
+
+    // char t_String1[10];
+    // char t_String2[10];
+    // display->limpa_linha(2);
+    // display->limpa_linha(1);
+
+    for (unsigned char i = 0; i < QUANTIDADE_DE_USUARIOS; i++)
     {   
+        // itoa(usuarios[i].login, t_String1, 10);
+        // itoa(valor_digitado, t_String2, 10);
+
+        // display->limpa_linha(1);     
+        // display->print("U: ");   
+        // display->print(t_String1);
+        // display->limpa_linha(2);
+        // display->print("K: ");     
+        // display->print(t_String2);
+
+        // delay_ms(1000);
         if (valor_digitado == usuarios[i].login)
         {
             usuario_existente = true;
-            entra_ou_sai(display, keyboard, timer, i);
+            entra_ou_sai(i);
         }        
     }
     if(!usuario_existente)
     {
-        display.print_duas_linhas("Usuario Digitado", "Nao Existe");
+        display->print_duas_linhas("Usuario Digitado", "Nao Existe");
     }
 }
