@@ -67,14 +67,14 @@ void Display::print_horario(long count)
   m_lcd.print(aux_1 - 10*aux_2 + ASCII_SHIFT);
 }
 
-void Display::print_tempo_restante(long count)
+void Display::print_tempo_restante(long tempo_restante)
 {
   limpa_linha(2);
   goto_display(2,1);
-  if (count > 0)
+  if (tempo_restante > 0)
   {
     print("Restam: ");
-    print_horario(count);
+    print_horario(tempo_restante);
   }else{
     print("Seu Tempo Acabou");
   }  
@@ -106,4 +106,16 @@ void Display::print_duas_linhas(char string1[MAX_STRING_SIZE], char string2[MAX_
   print(string1);
   limpa_linha(2);
   print(string2);
+}
+
+void Display::print_user(short user)
+{
+  int i;
+  short aux;
+  for(i=0;i<DIGIT_NUMBER;i++)
+  {
+    aux = user/pot(10, DIGIT_NUMBER - i - 1);
+    print(aux + ASCII_SHIFT);
+    user = user - aux*pot(10, DIGIT_NUMBER - i - 1);
+  }
 }

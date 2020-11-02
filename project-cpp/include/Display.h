@@ -6,6 +6,7 @@
 
 #define DISPLAY_DELAY 3
 
+
 class Display
 {
 public:
@@ -18,9 +19,10 @@ public:
   void print_interfacie_padrao(long int count, short capacity);
   void clear();
   void limpa_linha(unsigned char linha);
-  void print_tempo_restante(long count);
+  void print_tempo_restante(long tempo_restante);
   void print_duas_linhas(char string1[MAX_STRING_SIZE], char string2[MAX_STRING_SIZE]);
   void print_horario(long count);
+  void print_user(short user);
 private:
  
   void print_relogio(long count);

@@ -2,11 +2,12 @@
 
 #include <stdlib.h>
 
-Admin::Admin(Display *d, Timer *t, Keyboard *k)
+Admin::Admin(Display *d, Timer *t, Keyboard *k, Userdatabase *u)
 {
   display = d;
   timer = t;
   keyboard = k;
+  userdatabase = u;
 }
 
 Admin::~Admin()
@@ -30,7 +31,7 @@ void Admin::start()
         /* code */
         break;
       case 3:
-        /* code */
+        report();
         break;
       case 4:
         break;
@@ -181,4 +182,69 @@ unsigned short Admin::readNewTime()
   // to get 12 we divide by 1000
 
   return key_value/1000;  
+}
+
+void Admin::verifica_usuario(short login, short i)
+{
+  if (userdatabase->capacity()>0)
+    {
+      display->limpa_linha(2);
+      display->print("<-2  ");
+      display->print_user(login);
+      display->print("   1->");
+    }else
+    {
+      display->limpa_linha(2);
+      display->print("Nenhum Presente");
+    }
+
+}
+
+void Admin::report()
+{ 
+  char option;
+  short i = 0, j;
+
+  short presentes[MAXIMO_USUARIOS_PRESENTES];
+
+  for (j = 0; j < QUANTIDADE_DE_USUARIOS; j++)
+  {
+    if(userdatabase->usuarios[j].esta_dentro)
+    {
+      presentes[i] = userdatabase->usuarios[j].login;
+      i++;
+    }
+  }
+  i = 0;
+
+  display->limpa_linha(2);
+  display->limpa_linha(1);
+  display->print("0");
+  display->print(userdatabase->capacity() + ASCII_SHIFT);
+  display->print(" Pres:  3-Exit");
+  
+  do
+  {
+    verifica_usuario(presentes[i], i);
+    option = readOptionDigit(3);
+    switch (option)
+    {
+      case 1:
+        i++;
+        if (i >= userdatabase->capacity())
+        {
+          i = 0;
+        }     
+        break;
+      case 2:
+        i--;
+        if (i < 0)
+        {
+          i = userdatabase->capacity() - 1;
+        }  
+        break;
+      case 3:
+        break;
+    }
+  }while(option != 3);
 }

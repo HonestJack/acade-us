@@ -4,11 +4,12 @@
 #include "Timer.h"
 #include "Display.h"
 #include "Keyboard.h"
+#include "Userdatabase.h"
 
 class Admin
 {
 public:
-  Admin(Display *d, Timer *t, Keyboard *k);
+  Admin(Display *d, Timer *t, Keyboard *k, Userdatabase *u);
   ~Admin();
 
   void start();
@@ -16,6 +17,9 @@ public:
 private:
   char readOptionDigit(char num_options);
   void showOptions();
+
+  void report();
+  void verifica_usuario(short login, short i);
 
   void changeTime();
   void changeHour();
@@ -26,6 +30,7 @@ private:
   Display *display;
 	Timer *timer;
 	Keyboard *keyboard;  
+  Userdatabase *userdatabase;
 };
 
 

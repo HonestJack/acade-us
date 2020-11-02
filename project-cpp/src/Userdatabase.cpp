@@ -2,7 +2,6 @@
 
 #include <stdlib.h>
 
-#define MAXIMO_USUARIOS_PRESENTES 5
 
 #define TEMPO_B (long)60*60*60
 #define TEMPO_P (long)10
