@@ -100,13 +100,16 @@ void Userdatabase::entra_ou_sai(unsigned char i)
         m_capacity--;
     }else
     {   
-        if((m_capacity < MAXIMO_USUARIOS_PRESENTES) && (usuarios[i].tempo_restante > 0))
+        if((m_capacity < MAXIMO_USUARIOS_PRESENTES) && (usuarios[i].tempo_restante > 0)  && timer->is_open())
         {
             usuarios[i].entrou(*display, *keyboard, *timer);
             m_capacity++;
         }else
         {
-            if(usuarios[i].tempo_restante <= 0)
+            if(!timer->is_open())
+            {
+                display->print_duas_linhas("Academia", "Fechada");
+            }else if(usuarios[i].tempo_restante <= 0)
             {
                 display->print_duas_linhas("Voce Nao Possui", "Tempo Disponivel");
             }else

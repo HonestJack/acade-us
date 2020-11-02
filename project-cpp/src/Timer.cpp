@@ -9,6 +9,10 @@ ISR (TIMER1_OVF_vect) // Interrup��o do timer respons�vel por contar os se
 	TCNT1  = 3036;
 	TIFR1 |= (1 << 0); // Clear Flag
 	Timer::counter++;
+	if(Timer::counter >= HORAS_EM_UM_DIA)
+	{
+		Timer::counter = 0;
+	}
 }
 
 Timer::Timer(/* args */)
@@ -34,4 +38,16 @@ volatile long Timer::getTime()
 void Timer::setTime(long newTime)
 {
 	counter = newTime;
+}
+
+bool Timer::is_open()
+{
+	if(counter <  HORA_DE_ABRIR ||
+	   counter >= HORA_DE_FECHAR)
+	{
+		return false;
+	}else
+	{
+		return true;
+	}
 }
