@@ -1,6 +1,10 @@
 #include "Admin.h"
-
 #include <stdlib.h>
+
+#define TEMPO_B (long)60*60*60
+#define TEMPO_P (long)10
+#define TEMPO_M 1
+#define TEMPO_X 0
 
 Admin::Admin(Display *d, Timer *t, Keyboard *k, Userdatabase *u)
 {
