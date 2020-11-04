@@ -28,10 +28,10 @@ void Admin::start()
         changeTime();
         break;
       case 2:
-        /* code */
+        menu_troca_conta();
         break;
       case 3:
-        report();
+        menu_report();
         break;
       case 4:
         break;
@@ -53,6 +53,7 @@ char Admin::readOptionDigit(char num_options)
       keyboard->nextRow();
     }
     option = key - '0';
+    key = 0;
   } while (option < 1 || option > num_options);
 
   return option;
@@ -184,23 +185,20 @@ unsigned short Admin::readNewTime()
   return key_value/1000;  
 }
 
-void Admin::verifica_usuario(short login, short i)
+void Admin::verifica_usuario_presentes(short login)
 {
   if (userdatabase->capacity()>0)
-    {
-      display->limpa_linha(2);
-      display->print("<-2  ");
-      display->print_user(login);
-      display->print("   1->");
-    }else
-    {
-      display->limpa_linha(2);
-      display->print("Nenhum Presente");
-    }
+  {
+    display->print_menu_deslizante(login);
+  }else
+  {
+    display->limpa_linha(2);
+    display->print("Nenhum Presente");
+  }
 
 }
 
-void Admin::report()
+void Admin::menu_report()
 { 
   char option;
   short i = 0, j;
@@ -225,7 +223,7 @@ void Admin::report()
   
   do
   {
-    verifica_usuario(presentes[i], i);
+    verifica_usuario_presentes(userdatabase->usuarios[i].login);
     option = readOptionDigit(3);
     switch (option)
     {
@@ -247,4 +245,57 @@ void Admin::report()
         break;
     }
   }while(option != 3);
+}
+
+
+void Admin::menu_troca_conta()
+{
+  char option;
+  short i = 0;
+
+  display->limpa_linha(2);
+  display->limpa_linha(1);
+  display->print("3-Exit  4-Select");
+
+  do
+  {
+    display->print_menu_deslizante(userdatabase->usuarios[i].login);
+    option = readOptionDigit(4);
+    switch (option)
+    {
+      case 1:
+        i++;
+        if (i >= QUANTIDADE_DE_USUARIOS)
+        {
+          i = 0;
+        }     
+        break;
+      case 2:
+        i--;
+        if (i < 0)
+        {
+          i = QUANTIDADE_DE_USUARIOS - 1;
+        }  
+        break;
+      case 3:
+        break;
+      case 4:
+        seleciona_troca(i);
+        option = 3;
+        break;
+    }
+  }while(option != 3);
+  
+
+}
+
+void Admin::seleciona_troca(short i)
+{
+  display->limpa_linha(1);
+  display->print_user(userdatabase->usuarios[i].login);
+  display->print(": ");
+  display->print(userdatabase->usuarios[i].plano);
+  display->limpa_linha(2);
+  display->print("1-B 2-P 3-M 4-X");
+  delay_ms(3000);
 }

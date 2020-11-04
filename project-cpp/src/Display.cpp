@@ -119,3 +119,11 @@ void Display::print_user(short user)
     user = user - aux*pot(10, DIGIT_NUMBER - i - 1);
   }
 }
+
+void Display::print_menu_deslizante(short user)
+{
+  limpa_linha(2);
+  print("<-2  ");
+  print_user(user);
+  print("   1->");
+}

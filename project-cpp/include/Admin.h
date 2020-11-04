@@ -18,8 +18,11 @@ private:
   char readOptionDigit(char num_options);
   void showOptions();
 
-  void report();
-  void verifica_usuario(short login, short i);
+  void menu_report();
+  void verifica_usuario_presentes(short login);
+
+  void menu_troca_conta();
+  void seleciona_troca(short i);
 
   void changeTime();
   void changeHour();

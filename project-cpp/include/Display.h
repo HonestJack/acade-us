@@ -23,6 +23,7 @@ public:
   void print_duas_linhas(char string1[MAX_STRING_SIZE], char string2[MAX_STRING_SIZE]);
   void print_horario(long count);
   void print_user(short user);
+  void print_menu_deslizante(short user);
 private:
  
   void print_relogio(long count);
