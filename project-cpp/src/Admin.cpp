@@ -297,5 +297,28 @@ void Admin::seleciona_troca(short i)
   display->print(userdatabase->usuarios[i].plano);
   display->limpa_linha(2);
   display->print("1-B 2-P 3-M 4-X");
+    switch (readOptionDigit(9))
+    {
+      case 1:
+                userdatabase->usuarios[i].tempo_restante = TEMPO_B;
+                userdatabase->usuarios[i].plano = 'B';
+                break;
+      case 2:
+                userdatabase->usuarios[i].tempo_restante = TEMPO_P;
+                userdatabase->usuarios[i].plano = 'P';
+                break;
+      case 3:
+                userdatabase->usuarios[i].tempo_restante = TEMPO_M;
+                userdatabase->usuarios[i].plano = 'M';
+                break;
+      case 4:
+                userdatabase->usuarios[i].tempo_restante = TEMPO_X;
+                userdatabase->usuarios[i].plano = 'X';
+                break;
+      default:
+                display->limpa_linha(2);
+                display->print("Wrong Plan!");
+                break;
+    }
   delay_ms(3000);
 }
