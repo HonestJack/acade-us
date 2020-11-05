@@ -6,6 +6,8 @@
 #include "Keyboard.h"
 #include "Userdatabase.h"
 
+#define SENHA_ADMIN 12345
+
 class Admin
 {
 public:
@@ -15,6 +17,8 @@ public:
   void start();
 
 private:
+  void entrar_senha_admin(Display display, Keyboard keyboard);
+
   char readOptionDigit(char num_options);
   void showOptions();
 

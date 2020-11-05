@@ -18,10 +18,45 @@ Admin::~Admin()
 {
 }
 
+void Admin::entrar_senha_admin(Display display, Keyboard keyboard)
+{
+    short key_value = 0;
+    char index_old = 0;
+    keyboard.resetIndex();
+    
+    display.limpa_linha(2);
+    display.limpa_linha(1);
+    display.goto_display(1, 1);
+    display.print("Senha:");
+
+    while((key_value != SENHA_ADMIN) || (keyboard.getIndex() < DIGIT_NUMBER))
+    {
+        key_value += keyboard.reading(display);
+
+        if(index_old != keyboard.getIndex())
+        {
+            index_old = keyboard.getIndex();;
+            display.goto_display(2, keyboard.getIndex());
+            display.print('*');
+        }
+
+        if(keyboard.getIndex() == DIGIT_NUMBER)
+        {
+            if(key_value != SENHA_ADMIN){
+                display.goto_display(2, 1);
+                display.print("Incorreto...");
+                key_value = 0;
+                keyboard.resetIndex();
+                index_old = 0;
+            }
+        }
+    }
+}
+
 void Admin::start()
 {
   char option;
-
+  entrar_senha_admin(*display, *keyboard);
   do
   {
     showOptions();

@@ -4,6 +4,17 @@
 
 volatile long Timer::counter;
 volatile short Timer::aux_counter;
+volatile bool Timer::alarme;
+
+void Timer::detecta_alarme(short ocupantes)
+{
+	if(!is_open() && (ocupantes > 0))
+	{
+		alarme = true;
+	}else{
+		alarme = false;
+	}
+}
 
 ISR (TIMER1_OVF_vect) // Interrup��o do timer respons�vel por contar os segundos
 {
@@ -21,8 +32,13 @@ ISR (TIMER1_OVF_vect) // Interrup��o do timer respons�vel por contar os se
 		}
 		Timer::aux_counter = 0;
 	}
-
-	PORTB ^= (1 << 5);
+	if(Timer::alarme)
+	{
+		PORTB ^=  (1 << 5);
+	}else
+	{
+		PORTB &= ~(1 << 5);
+	}
 	
 }
 

@@ -1,6 +1,8 @@
 #ifndef TIMER_H
 #define TIMER_H
 
+#include "utils.h"
+
 #define START_HOUR    13
 #define START_MINUTE  30
 #define START_SECOND  0
@@ -19,9 +21,12 @@ public:
   volatile long getTime();
   void setTime(long newTime);
   bool is_open();
+  void detecta_alarme(short opcupantes);
+  
 // private:
   volatile static long counter;
   volatile static short aux_counter;
+  volatile bool static alarme;
 };
 
 #endif

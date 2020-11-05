@@ -29,7 +29,11 @@ void showTimeCapacity()
   {
     old_counter = counter;
     display.print_interfacie_padrao(counter, userdatabase.capacity());
-  } 
+  }
+
+  timer.detecta_alarme(userdatabase.capacity());
+  
+
 }
 
 void inputHandler(short &key_value)
