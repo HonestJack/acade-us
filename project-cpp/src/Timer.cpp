@@ -46,8 +46,9 @@ Timer::Timer(/* args */)
 {
     TCCR1A = 0;        // Timer
 	TCCR1B = 3;        // Prescaler 64
+	TCCR1C = 0;
 	TCNT1  = 3036;     // 2^16 - 250 000u/(0.0625u*presc)
-//	OCR1A  = 62500;        //  1 000 000u/(0.0625u*presc)
+	OCR1A  = 62500;        // 
 	TIFR1 |= (1 << 0); // Clear Flag
 	TIMSK1 = (1 << 0); // Ativa interrupt do Timer1
 	counter = (long)START_TIME;

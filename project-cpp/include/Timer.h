@@ -4,8 +4,8 @@
 #include "utils.h"
 
 #define START_HOUR    13
-#define START_MINUTE  30
-#define START_SECOND  0
+#define START_MINUTE  00
+#define START_SECOND  00
 #define START_TIME    (START_HOUR*(long)3600 + START_MINUTE*(long)60 + START_SECOND)
 
 #define HORAS_EM_UM_DIA (long)24*60*60

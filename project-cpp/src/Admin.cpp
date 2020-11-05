@@ -263,7 +263,7 @@ void Admin::menu_report()
   
   do
   {
-    verifica_usuario_presentes(userdatabase->usuarios[i].login);
+    verifica_usuario_presentes(presentes[i]);
     option = readOptionDigit(3);
     switch (option)
     {
