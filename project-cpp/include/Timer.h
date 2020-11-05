@@ -21,6 +21,7 @@ public:
   bool is_open();
 // private:
   volatile static long counter;
+  volatile static short aux_counter;
 };
 
 #endif

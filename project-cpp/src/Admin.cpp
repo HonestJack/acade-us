@@ -295,13 +295,17 @@ void Admin::menu_troca_conta()
 
 void Admin::seleciona_troca(short i)
 {
+  char option;
   display->limpa_linha(1);
   display->print_user(userdatabase->usuarios[i].login);
   display->print(": ");
   display->print(userdatabase->usuarios[i].plano);
   display->limpa_linha(2);
   display->print("1-B 2-P 3-M 4-X");
-    switch (readOptionDigit(9))
+  do
+  {
+    option = readOptionDigit(9);
+    switch (option)
     {
       case 1:
                 userdatabase->usuarios[i].tempo_restante = TEMPO_B;
@@ -320,9 +324,12 @@ void Admin::seleciona_troca(short i)
                 userdatabase->usuarios[i].plano = 'X';
                 break;
       default:
-                display->limpa_linha(2);
+                display->limpa_linha(1);
                 display->print("Wrong Plan!");
                 break;
     }
-  delay_ms(3000);
+  } while (option < 1 || option > 4);
+  display->limpa_linha(1);
+  display->print("Troca confirmada");
+  delay_ms(2000);
 }
