@@ -6,12 +6,13 @@
 #define TEMPO_M 1
 #define TEMPO_X 0
 
-Admin::Admin(Display *d, Timer *t, Keyboard *k, Userdatabase *u)
+Admin::Admin(Display *d, Timer *t, Keyboard *k, Userdatabase *u, Eeprom *e)
 {
   display = d;
   timer = t;
   keyboard = k;
   userdatabase = u;
+  eeprom = e;
 }
 
 Admin::~Admin()
@@ -364,7 +365,10 @@ void Admin::seleciona_troca(short i)
                 break;
     }
   } while (option < 1 || option > 4);
+  eeprom->escreve(i,userdatabase->usuarios[i].plano);
   display->limpa_linha(1);
   display->print("Troca confirmada");
+  display->limpa_linha(2);
+  display->print(eeprom->at(i));
   delay_ms(2000);
 }

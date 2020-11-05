@@ -9,6 +9,7 @@ public:
 
   unsigned char at(unsigned int index);
   void append(unsigned char data);
+  void escreve(unsigned int addr, unsigned char data);
 
 private:
   void writeByte(unsigned int addr, unsigned char data);

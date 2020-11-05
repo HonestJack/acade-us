@@ -54,19 +54,35 @@ static char lista_planos [11] =
 };
 
 
-Userdatabase::Userdatabase(Display *d, Timer *t, Keyboard *k)
+Userdatabase::Userdatabase(Display *d, Timer *t, Keyboard *k, Eeprom *e)
 {
     display = d;
     timer = t;
     keyboard = k;
+    eeprom = e;
 
-    unsigned char i;
+    char plano_lido;
+
+    unsigned int i;
     m_capacity = 0;
     for(i=0; i<QUANTIDADE_DE_USUARIOS; i++)
     {
         usuarios[i].login = lista_clientes[i];
         usuarios[i].senha = lista_senhas[i];
-        usuarios[i].plano = lista_planos[i];
+        plano_lido = eeprom->at(i);
+        if(plano_lido == 'B' || 
+           plano_lido == 'P' || 
+           plano_lido == 'M' || 
+           plano_lido == 'X')
+        {
+            usuarios[i].plano = plano_lido;
+        }else
+        {
+            usuarios[i].plano = lista_planos[i]; 
+            eeprom->escreve(i, lista_planos[i]);   
+        }
+        // usuarios[i].plano = lista_planos[i]; 
+        
         usuarios[i].esta_dentro = 0;
         switch (usuarios[i].plano)
         {

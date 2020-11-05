@@ -4,6 +4,7 @@
 #include "Timer.h"
 #include "Display.h"
 #include "Keyboard.h"
+#include "Eeprom.h"
 
 class User
 {

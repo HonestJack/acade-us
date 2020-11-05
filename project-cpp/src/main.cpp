@@ -14,9 +14,10 @@
 Display display;
 Timer timer; 
 Keyboard keyboard;
-Userdatabase userdatabase(&display, &timer, &keyboard);
-Admin admin(&display, &timer, &keyboard, &userdatabase);
 Eeprom eeprom;
+Userdatabase userdatabase(&display, &timer, &keyboard, &eeprom);
+Admin admin(&display, &timer, &keyboard, &userdatabase, &eeprom);
+
 
 void showTimeCapacity()
 {

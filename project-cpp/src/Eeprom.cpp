@@ -23,6 +23,11 @@ void Eeprom::append(unsigned char data)
   m_size++;
 }
 
+void Eeprom::escreve(unsigned int addr, unsigned char data)
+{
+  writeByte(addr,data);
+}
+
 void Eeprom::writeByte(unsigned int addr, unsigned char data)
 {
   cli(); // Disable interrupts

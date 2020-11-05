@@ -9,7 +9,7 @@
 class Userdatabase
 {
 public:
-	Userdatabase(Display *d, Timer *t, Keyboard *k);
+	Userdatabase(Display *d, Timer *t, Keyboard *k, Eeprom *e);
 	~Userdatabase();
 	
 	short capacity();
@@ -26,6 +26,7 @@ private:
 	Display *display;
 	Timer *timer;
 	Keyboard *keyboard;
+	Eeprom *eeprom;
 
 };
 

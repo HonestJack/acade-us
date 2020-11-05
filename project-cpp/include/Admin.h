@@ -11,7 +11,7 @@
 class Admin
 {
 public:
-  Admin(Display *d, Timer *t, Keyboard *k, Userdatabase *u);
+  Admin(Display *d, Timer *t, Keyboard *k, Userdatabase *u, Eeprom *e);
   ~Admin();
 
   void start();
@@ -38,6 +38,7 @@ private:
 	Timer *timer;
 	Keyboard *keyboard;  
   Userdatabase *userdatabase;
+  Eeprom *eeprom;
 };
 
 
